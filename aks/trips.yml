@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: poi
+  name: trips
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: poi
+      app: trips
   template:
     metadata:
       labels:
-        app: poi
+        app: trips
     spec:
       nodeSelector:
         "kubernetes.io/os": linux
       containers:
-      - name: poi
-        image: registryuxy0369.azurecr.io/poi
+      - name: trips
+        image: registryuxy0369.azurecr.io/openhack-trips:1.0
         resources:
           requests:
             cpu: 100m
@@ -35,13 +35,16 @@ spec:
           value: "sqlserveruxy0369.database.windows.net"
         - name: SQL_USER
           value: "sqladminuXy0369"  
+        - name: OPENAPI_DOCS_URI
+          value: "http://changeme"
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: poi
+  name: trips
 spec:
   ports:
   - port: 80
   selector:
-    app: poi          
+    app: trips

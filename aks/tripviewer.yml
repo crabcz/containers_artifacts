@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: poi
+  name: tripviewer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: poi
+      app: tripviewer
   template:
     metadata:
       labels:
-        app: poi
+        app: tripviewer
     spec:
       nodeSelector:
         "kubernetes.io/os": linux
       containers:
-      - name: poi
-        image: registryuxy0369.azurecr.io/poi
+      - name: tripviewer
+        image: registryuxy0369.azurecr.io/openhack-tripviewer:1.0
         resources:
           requests:
             cpu: 100m
@@ -27,21 +27,17 @@ spec:
         ports:
         - containerPort: 80
         env:
-        - name: ASPNETCORE_ENVIRONMENT
-          value: "Production"
-        - name: SQL_PASSWORD
-          value: "_YourStrong@Passw0rd"
-        - name: SQL_SERVER
-          value: "sqlserveruxy0369.database.windows.net"
-        - name: SQL_USER
-          value: "sqladminuXy0369"  
+        - name: TRIPS_API_ENDPOINT
+          value: "http://endpoint"
+        - name: USERPROFILE_API_ENDPOINT
+          value: "http://endpoint"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: poi
+  name: tripviewer
 spec:
   ports:
   - port: 80
   selector:
-    app: poi          
+    app: tripviewer          

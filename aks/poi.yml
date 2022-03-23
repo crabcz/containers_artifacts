@@ -16,7 +16,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
       - name: poi
-        image: registryuxy0369.azurecr.io/poi
+        image: registryuxy0369.azurecr.io/openhack-poi:1.0
         resources:
           requests:
             cpu: 100m

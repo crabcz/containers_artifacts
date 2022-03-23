@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: poi
+  name: userprofile
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: poi
+      app: userprofile
   template:
     metadata:
       labels:
-        app: poi
+        app: userprofile
     spec:
       nodeSelector:
         "kubernetes.io/os": linux
       containers:
-      - name: poi
-        image: registryuxy0369.azurecr.io/poi
+      - name: userprofile
+        image: registryuxy0369.azurecr.io/openhack-userprofile:1.0
         resources:
           requests:
             cpu: 100m
@@ -35,13 +35,17 @@ spec:
           value: "sqlserveruxy0369.database.windows.net"
         - name: SQL_USER
           value: "sqladminuXy0369"  
+        - name: PORT
+          value: "80"
+        - name: CONFIG_FILES_PATH
+          value: "/secrets"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: poi
+  name: userprofile
 spec:
   ports:
   - port: 80
   selector:
-    app: poi          
+    app: userprofile          
