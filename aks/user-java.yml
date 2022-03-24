@@ -27,12 +27,22 @@ spec:
         ports:
         - containerPort: 80
         env:
+        - name: SQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: user-java-db-user-pass
+              key: username
         - name: SQL_PASSWORD
-          value: "_YourStrong@Passw0rd"
+          valueFrom:
+            secretKeyRef:
+              name: user-java-db-user-pass
+              key: password      
+        #- name: SQL_PASSWORD
+        #  value: "_YourStrong@Passw0rd"
+        #- name: SQL_USER
+        #  value: "sqladminuXy0369"  
         - name: SQL_SERVER
           value: "sqlserveruxy0369.database.windows.net"
-        - name: SQL_USER
-          value: "sqladminuXy0369"  
         - name: SQL_DBNAME
           value: mydrivingDB
         - name: PORT

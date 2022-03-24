@@ -29,12 +29,22 @@ spec:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Production"
+        - name: SQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: poi-db-user-pass
+              key: username
         - name: SQL_PASSWORD
-          value: "_YourStrong@Passw0rd"
+          valueFrom:
+            secretKeyRef:
+              name: poi-db-user-pass
+              key: password                
+        #- name: SQL_PASSWORD
+        #  value: "_YourStrong@Passw0rd"
+        #- name: SQL_USER
+        #  value: "sqladminuXy0369"  
         - name: SQL_SERVER
           value: "sqlserveruxy0369.database.windows.net"
-        - name: SQL_USER
-          value: "sqladminuXy0369"  
 ---
 apiVersion: v1
 kind: Service
