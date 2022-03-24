@@ -23,27 +23,27 @@ docker run --network openhack -ti -e ASPNETCORE_ENVIRONMENT=Local -e SQL_PASSWOR
 ```sh
 
 # poi-db-user-pass
-kubectl create secret generic poi-db-user-pass \
+kubectl -n api create secret generic poi-db-user-pass \
   --from-literal=username=sqladminuXy0369 \
   --from-literal=password='_YourStrong@Passw0rd'
 
 # userprofile-db-user-pass
-kubectl create secret generic userprofile-db-user-pass \
+kubectl -n api create secret generic userprofile-db-user-pass \
   --from-literal=username=sqladminuXy0369 \
   --from-literal=password='_YourStrong@Passw0rd'
 
 # user-java-db-user-pass
-kubectl create secret generic user-java-db-user-pass \
+kubectl -n api create secret generic user-java-db-user-pass \
   --from-literal=username=sqladminuXy0369 \
   --from-literal=password='_YourStrong@Passw0rd'
 
 # tripviewer-db-user-pass
-kubectl create secret generic tripviewer-db-user-pass \
+kubectl -n web create secret generic tripviewer-db-user-pass \
   --from-literal=username=sqladminuXy0369 \
   --from-literal=password='_YourStrong@Passw0rd'
 
 # trips-db-user-pass
-kubectl create secret generic trips-db-user-pass \
+kubectl -n api create secret generic trips-db-user-pass \
   --from-literal=username=sqladminuXy0369 \
   --from-literal=password='_YourStrong@Passw0rd'
 
@@ -58,3 +58,7 @@ kubectl delete secret poi-db-user-pass userprofile-db-user-pass user-java-db-use
 
 ```
 
+
+# ingresss
+kubectl create ns ingress
+helm -n ingress install ingress-nginx ingress-nginx/ingress-nginx 

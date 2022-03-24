@@ -1,7 +1,9 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: userprofile
+  namespace: api
 spec:
   replicas: 1
   selector:
@@ -11,7 +13,6 @@ spec:
     metadata:
       labels:
         app: userprofile
-        namespace: api
     spec:
       nodeSelector:
         "kubernetes.io/os": linux
@@ -30,31 +31,27 @@ spec:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Production"
-        - name: SQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: userprofile-db-user-pass
-              key: username
-        - name: SQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: userprofile-db-user-pass
-              key: password              
-        #- name: SQL_PASSWORD
-        #  value: "_YourStrong@Passw0rd"
-        #- name: SQL_USER
-        #  value: "sqladminuXy0369"  
-        - name: SQL_SERVER
-          value: "sqlserveruxy0369.database.windows.net"
         - name: PORT
           value: "80"
         - name: CONFIG_FILES_PATH
           value: "/secrets"
+        volumeMounts:
+          - name: sql-credentials
+            mountPath: "/secrets"
+            readOnly: true
+      volumes:
+        - name: sql-credentials
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "humo-kv-class"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: userprofile
+  namespace: api
 spec:
   ports:
   - port: 80

@@ -1,0 +1,78 @@
+# This is a SecretProviderClass example using user-assigned identity to access your key vault
+---
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: humo-kv-class
+  namespace: api
+spec:
+  provider: azure
+  parameters:
+    usePodIdentity: "false"
+    useVMManagedIdentity: "true"          # Set to true for using managed identity
+    userAssignedIdentityID: 3ac3cbaa-b74c-4b41-b727-c87ad87fbae7   # Set the clientID of the user-assigned managed identity to use
+    keyvaultName: humo-keyvault        # Set to the name of your key vault
+    cloudName: ""                         # [OPTIONAL for Azure] if not provided, the Azure environment defaults to AzurePublicCloud
+    objects:  |
+      array:
+        - |
+          objectName: sql-pw
+          objectType: secret              # object types: secret, key, or cert
+          objectVersion: ""               # [OPTIONAL] object versions, default to latest if empty
+          objectAlias: SQL_PASSWORD
+        - |
+          objectName: sql-host
+          objectType: secret              # object types: secret, key, or cert
+          objectVersion: ""               # [OPTIONAL] object versions, default to latest if empty
+          objectAlias: SQL_SERVER
+        - |
+          objectName: sql-user
+          objectType: secret              # object types: secret, key, or cert
+          objectVersion: ""               # [OPTIONAL] object versions, default to latest if empty
+          objectAlias: SQL_USER
+        - |
+          objectName: sql-db-name
+          objectType: secret              # object types: secret, key, or cert
+          objectVersion: ""               # [OPTIONAL] object versions, default to latest if empty
+          objectAlias: SQL_DBNAME
+    tenantId: 472fa558-87d8-4ad3-8133-787ef0910d78                 # The tenant ID of the key vault
+
+---
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: humo-kv-class
+  namespace: web
+spec:
+  provider: azure
+  parameters:
+    usePodIdentity: "false"
+    useVMManagedIdentity: "true"          # Set to true for using managed identity
+    userAssignedIdentityID: 3ac3cbaa-b74c-4b41-b727-c87ad87fbae7   # Set the clientID of the user-assigned managed identity to use
+    keyvaultName: humo-keyvault        # Set to the name of your key vault
+    cloudName: ""                         # [OPTIONAL for Azure] if not provided, the Azure environment defaults to AzurePublicCloud
+    objects:  |
+      array:
+        - |
+          objectName: sql-pw
+          objectType: secret              # object types: secret, key, or cert
+          objectVersion: ""               # [OPTIONAL] object versions, default to latest if empty
+          objectAlias: SQL_PASSWORD
+        - |
+          objectName: sql-host
+          objectType: secret              # object types: secret, key, or cert
+          objectVersion: ""               # [OPTIONAL] object versions, default to latest if empty
+          objectAlias: SQL_SERVER
+        - |
+          objectName: sql-user
+          objectType: secret              # object types: secret, key, or cert
+          objectVersion: ""               # [OPTIONAL] object versions, default to latest if empty
+          objectAlias: SQL_USER
+        - |
+          objectName: sql-db-name
+          objectType: secret              # object types: secret, key, or cert
+          objectVersion: ""               # [OPTIONAL] object versions, default to latest if empty
+          objectAlias: SQL_DBNAME
+
+  
+    tenantId: 472fa558-87d8-4ad3-8133-787ef0910d78                 # The tenant ID of the key vault

@@ -30,30 +30,25 @@ spec:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Production"
-        - name: SQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: trips-db-user-pass
-              key: username
-        - name: SQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: trips-db-user-pass
-              key: password      
-        #- name: SQL_PASSWORD
-        #  value: "_YourStrong@Passw0rd"
-        #- name: SQL_USER
-        #  value: "sqladminuXy0369"  
-        - name: SQL_SERVER
-          value: "sqlserveruxy0369.database.windows.net"
         - name: OPENAPI_DOCS_URI
           value: "http://changeme"
-
+        volumeMounts:
+          - name: sql-credentials
+            mountPath: "/secrets"
+            readOnly: true
+      volumes:
+        - name: sql-credentials
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "humo-kv-class"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: trips
+  namespace: api
 spec:
   ports:
   - port: 80
