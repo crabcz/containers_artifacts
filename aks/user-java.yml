@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-api
+  name: user-java
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user-api
+      app: user-java
   template:
     metadata:
       labels:
-        app: user-api
+        app: user-java
     spec:
       nodeSelector:
         "kubernetes.io/os": linux
       containers:
-      - name: user-api
+      - name: user-java
         image: registryuxy0369.azurecr.io/openhack-user-java:1.0
         resources:
           requests:
@@ -41,9 +41,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-api
+  name: user-java
 spec:
   ports:
   - port: 80
   selector:
-    app: user-api          
+    app: user-java          
