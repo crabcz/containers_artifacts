@@ -12,6 +12,9 @@ spec:
     metadata:
       labels:
         app: tripviewer
+      annotations:
+        prometheus.io/port: "80"
+        prometheus.io/scrape: "true"
     spec:
       nodeSelector:
         "kubernetes.io/os": linux

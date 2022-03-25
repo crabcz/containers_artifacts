@@ -58,10 +58,13 @@ data:
         #fielddrop = ["metric_to_drop"]
 
         # An array of urls to scrape metrics from.
-        # urls = ["http://myurl:9101/metrics"]
+        # urls = ["http://20.105.96.100/metrics"]
 
         # An array of Kubernetes services to scrape metrics from.
-        # kubernetes_services = ["http://my-service-dns.my-namespace:9102/metrics"]
+        kubernetes_services = [
+          "http://ingress-nginx-controller.ingress.svc.cluster.local:80/metrics",
+          "http://ingress-nginx-controller-metrics.ingress.svc.cluster.local:10254/metrics",
+        ]
 
         # When monitor_kubernetes_pods = true, replicaset will scrape Kubernetes pods for the following prometheus annotations:
         # - prometheus.io/scrape: Enable scraping for this pod
